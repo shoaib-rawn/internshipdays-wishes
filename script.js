@@ -132,8 +132,8 @@
       if (!response.ok && result?.code === "DIRECT_SUBMISSION_REQUIRED") {
         response = await fetch("https://formsubmit.co/ajax/shoaibhassan533q@gmail.com", {
           method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify({
+          headers: { Accept: "application/json" },
+          body: new URLSearchParams({
             name: fields.name,
             email: fields.email,
             message: fields.message,
