@@ -163,6 +163,10 @@
   const panel = card?.querySelector("#contact-panel");
   if (!card || !trigger || !panel) return;
 
+  panel.querySelector(".contact-channel-email")?.addEventListener("click", () => {
+    panel.querySelector('input[name="email"]')?.focus();
+  });
+
   let pinnedOpen = false;
   const setOpen = (open) => {
     card.classList.toggle("is-open", open);
