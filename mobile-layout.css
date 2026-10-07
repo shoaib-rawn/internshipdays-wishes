@@ -1,0 +1,68 @@
+@media (max-width: 600px) {
+  /* Keep each skill group aligned with the other full-width sections. */
+  .technical-skills {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .skill-category,
+  .skill-icons,
+  .proof-grid,
+  .proof-grid .proof-card {
+    min-width: 0;
+  }
+
+  .skill-icon-only::after {
+    display: none;
+  }
+
+  .rose-left {
+    left: 0;
+  }
+
+  .rose-right {
+    right: 0;
+  }
+
+  /* The fieldset and card both add padding, so trim the nested inset. */
+  .office-work-panel {
+    padding: 12px 10px 16px;
+  }
+
+  .proof-grid .proof-card {
+    padding: 20px;
+  }
+
+  .profile-section {
+    padding: 22px;
+  }
+
+  .profile-actions {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .profile-actions .profile-photo {
+    width: 96px;
+    height: 96px;
+  }
+
+  .profile-actions .file-button {
+    width: 100%;
+    min-width: 0;
+    padding: 8px 10px;
+    white-space: normal;
+    line-height: 1.35;
+    text-align: center;
+  }
+
+  .thanks h2 {
+    font-size: clamp(32px, 9vw, 38px);
+  }
+
+  .thanks h2 .brand-name {
+    white-space: normal;
+  }
+}
