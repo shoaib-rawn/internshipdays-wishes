@@ -10,3 +10,5 @@ A small thank-you website for Shoaib Hassan's six-month PSEB internship at <span
 ## Run locally
 
 Open `index.html` in a browser, or serve this folder with any static file server. The site uses plain HTML, CSS, JavaScript, SVG assets, and a PDF résumé.
+
+The contact form uses the Vercel Function at `/api/contact` to forward messages to FormSubmit. Local static previews show the form, but sending requires a Vercel deployment and an activated FormSubmit recipient address.

@@ -75,22 +75,26 @@
     status.classList.remove("is-error");
     status.textContent = "Sending your message…";
 
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 20000);
     try {
       const response = await fetch(form.action, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify(Object.fromEntries(new FormData(form)))
+        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        signal: controller.signal
       });
-      const result = await response.json().catch(() => ({}));
-      if (!response.ok || result.success === "false") {
-        throw new Error(result.message || "Message could not be sent.");
+      const result = await response.json().catch(() => null);
+      if (!response.ok || result?.success !== true) {
+        throw new Error(result?.message || "Message could not be confirmed as sent.");
       }
       form.reset();
       status.textContent = "Thanks! Your message has been sent.";
     } catch {
       status.classList.add("is-error");
-      status.textContent = "Sorry, your message could not be sent right now. Please try again shortly.";
+      status.textContent = "We could not confirm your message was sent. Please check your connection and try again later.";
     } finally {
+      clearTimeout(timeout);
       button.disabled = false;
       label.textContent = "Send message";
     }
