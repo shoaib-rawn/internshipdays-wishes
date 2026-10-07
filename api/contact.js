@@ -45,6 +45,7 @@ module.exports = async function contact(request, response) {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
         Referer: SITE_URL,
         Origin: new URL(SITE_URL).origin,
       },
@@ -66,6 +67,7 @@ module.exports = async function contact(request, response) {
       return response.status(502).json({
         success: false,
         code: 'DELIVERY_REJECTED',
+        providerStatus: upstream.status,
         message: providerMessage || 'The message service could not accept your message. Please try again later.',
       });
     }
