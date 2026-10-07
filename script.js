@@ -59,6 +59,49 @@
 })();
 
 (() => {
+  document.querySelectorAll("details.skill-category").forEach((box) => {
+    const trigger = box.querySelector("summary");
+    let pinnedOpen = false;
+    const setOpen = (open) => {
+      box.open = open;
+      trigger.setAttribute("aria-expanded", String(open));
+    };
+
+    box.addEventListener("pointerenter", (event) => {
+      if (event.pointerType !== "touch") setOpen(true);
+    });
+    box.addEventListener("pointerleave", (event) => {
+      if (event.pointerType !== "touch" && !pinnedOpen && !box.querySelector(":focus-visible")) setOpen(false);
+    });
+    box.addEventListener("focusin", (event) => {
+      if (event.target.matches(":focus-visible")) setOpen(true);
+    });
+    box.addEventListener("focusout", (event) => {
+      if (!pinnedOpen && !box.contains(event.relatedTarget) && !box.matches(":hover")) setOpen(false);
+    });
+    trigger.addEventListener("click", (event) => {
+      event.preventDefault();
+      pinnedOpen = !pinnedOpen;
+      setOpen(pinnedOpen);
+    });
+    box.addEventListener("toggle", () => trigger.setAttribute("aria-expanded", String(box.open)));
+    box.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      pinnedOpen = false;
+      trigger.focus();
+      setOpen(false);
+    });
+    document.addEventListener("pointerdown", (event) => {
+      if (!box.contains(event.target)) {
+        pinnedOpen = false;
+        setOpen(false);
+      }
+    });
+  });
+})();
+
+(() => {
   const form = document.querySelector("#contact-form");
   const status = document.querySelector("#contact-status");
   if (!form || !status) return;
