@@ -45,6 +45,8 @@ async function sendWithResend({ name, email, message }, response) {
 
 module.exports = async function contact(request, response) {
   response.setHeader('Cache-Control', 'no-store');
+  // Report the selected service for setup checks without exposing any key.
+  response.setHeader('X-Contact-Provider', process.env.RESEND_API_KEY?.trim() ? 'resend' : 'formsubmit');
 
   if (request.method !== 'POST') {
     response.setHeader('Allow', 'POST');
