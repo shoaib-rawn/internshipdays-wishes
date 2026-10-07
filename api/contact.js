@@ -66,7 +66,9 @@ module.exports = async function contact(request, response) {
       console.error('Contact delivery rejected:', { status: upstream.status, message: providerMessage || 'No JSON response' });
       return response.status(502).json({
         success: false,
-        code: 'DELIVERY_REJECTED',
+        // A 403 confirms this server request was rejected before acceptance.
+        // The client may then use FormSubmit's supported browser AJAX endpoint.
+        code: upstream.status === 403 ? 'DIRECT_SUBMISSION_REQUIRED' : 'DELIVERY_REJECTED',
         providerStatus: upstream.status,
         message: providerMessage || 'The message service could not accept your message. Please try again later.',
       });

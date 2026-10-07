@@ -121,14 +121,35 @@
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 35000);
     try {
-      const response = await fetch(form.action, {
+      const fields = Object.fromEntries(new FormData(form));
+      let response = await fetch(form.action, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        body: JSON.stringify(fields),
         signal: controller.signal
       });
-      const result = await response.json().catch(() => null);
-      if (!response.ok || result?.success !== true) {
+      let result = await response.json().catch(() => null);
+      if (!response.ok && result?.code === "DIRECT_SUBMISSION_REQUIRED") {
+        response = await fetch("https://formsubmit.co/ajax/shoaibhassan533q@gmail.com", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            name: fields.name,
+            email: fields.email,
+            message: fields.message,
+            _honey: fields._honey || "",
+            _replyto: fields.email,
+            _subject: "New portfolio message for Shoaib Hassan",
+            _template: "table",
+            _url: "https://internshipdays-wishes.vercel.app/"
+          }),
+          signal: controller.signal
+        });
+        result = await response.json().catch(() => null);
+      }
+      const providerMessage = typeof result?.message === "string" ? result.message : "";
+      const needsActivation = /activat|confirm (?:your |the )?email|verification/i.test(providerMessage);
+      if (!response.ok || needsActivation || (result?.success !== true && result?.success !== "true")) {
         const error = new Error(result?.message || "The message service did not return a confirmation. Your message is still in the form.");
         error.isServiceError = true;
         throw error;
