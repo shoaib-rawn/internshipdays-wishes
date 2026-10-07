@@ -1,5 +1,47 @@
 const FORM_ENDPOINT = 'https://formsubmit.co/ajax/shoaibhassan533q@gmail.com';
 const SITE_URL = 'https://internshipdays-wishes.vercel.app/';
+const RECIPIENT = 'shoaibhassan533q@gmail.com';
+
+async function sendWithResend({ name, email, message }, response) {
+  try {
+    const upstream = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.RESEND_API_KEY.trim()}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: process.env.CONTACT_FROM_EMAIL || 'Shoaib Portfolio <onboarding@resend.dev>',
+        to: [RECIPIENT],
+        reply_to: email,
+        subject: 'New portfolio message for Shoaib Hassan',
+        text: `Name: ${name}\nEmail: ${email}\nWebsite: ${SITE_URL}\n\n${message}`,
+      }),
+      signal: AbortSignal.timeout(20000),
+    });
+    const result = await upstream.json().catch(() => null);
+    if (!upstream.ok || typeof result?.id !== 'string' || !result.id.trim()) {
+      console.error('Contact email rejected:', { status: upstream.status, reason: result?.name || 'Invalid provider response' });
+      const configurationError = upstream.status === 401 || upstream.status === 403;
+      return response.status(configurationError ? 503 : 502).json({
+        success: false,
+        code: configurationError ? 'MAIL_CONFIGURATION_ERROR' : 'DELIVERY_REJECTED',
+        message: configurationError
+          ? 'The contact form is awaiting email setup. Your message is still in the form.'
+          : 'The message service could not accept your message. Your message is still in the form; please try again later.',
+      });
+    }
+    return response.status(200).json({ success: true });
+  } catch (error) {
+    const timedOut = error.name === 'TimeoutError' || error.name === 'AbortError';
+    console.error('Contact email request failed:', { name: error.name, cause: error.cause?.code });
+    return response.status(timedOut ? 504 : 502).json({
+      success: false,
+      code: timedOut ? 'DELIVERY_TIMEOUT' : 'DELIVERY_UNAVAILABLE',
+      message: 'We could not confirm delivery. Your message is still in the form; please try again later.',
+    });
+  }
+}
 
 module.exports = async function contact(request, response) {
   response.setHeader('Cache-Control', 'no-store');
@@ -27,6 +69,10 @@ module.exports = async function contact(request, response) {
 
   if (fields._honey) {
     return response.status(400).json({ success: false, message: 'Please leave the extra field empty and try again.' });
+  }
+
+  if (process.env.RESEND_API_KEY?.trim()) {
+    return sendWithResend({ name, email, message }, response);
   }
 
   const payload = {
