@@ -4,3 +4,10 @@
 @keyframes marquee{to{transform:translateX(-50%)}}
 @media(max-width:460px){.marquee span{animation-duration:78s}}
 @media(prefers-reduced-motion:reduce){.marquee span{animation:none;white-space:normal;padding:4px 16px}}
+
+.is-daily-quote{height:auto;min-height:37px;text-transform:none;letter-spacing:.025em}
+.is-daily-quote .marquee>span{display:inline-flex;min-width:200%;width:max-content}
+.daily-quote-copy{flex:1;padding-inline:22px;color:inherit;text-decoration:none}
+.daily-quote-copy:hover{text-decoration:underline;text-underline-offset:3px}
+.announcement:focus-within .marquee>span{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){.announcement{height:auto;min-height:37px}.is-daily-quote .marquee>span{display:block;width:100%;min-width:0;white-space:normal}.daily-quote-copy{display:block;padding:0}.daily-quote-copy[aria-hidden="true"]{display:none}}
