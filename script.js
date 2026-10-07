@@ -96,3 +96,46 @@
     }
   });
 })();
+
+(() => {
+  const card = document.querySelector("#contact-widget");
+  const trigger = card?.querySelector(".contact-trigger");
+  const panel = card?.querySelector("#contact-panel");
+  if (!card || !trigger || !panel) return;
+
+  let pinnedOpen = false;
+  const setOpen = (open) => {
+    card.classList.toggle("is-open", open);
+    trigger.setAttribute("aria-expanded", String(open));
+    panel.hidden = !open;
+  };
+
+  card.addEventListener("pointerenter", (event) => {
+    if (event.pointerType !== "touch") setOpen(true);
+  });
+  card.addEventListener("pointerleave", (event) => {
+    if (event.pointerType === "touch") return;
+    if (!pinnedOpen && !card.contains(document.activeElement)) setOpen(false);
+  });
+  card.addEventListener("focusin", () => setOpen(true));
+  card.addEventListener("focusout", (event) => {
+    if (!pinnedOpen && !card.contains(event.relatedTarget)) setOpen(false);
+  });
+  trigger.addEventListener("click", () => {
+    pinnedOpen = !pinnedOpen;
+    setOpen(pinnedOpen);
+  });
+  document.addEventListener("pointerdown", (event) => {
+    if (pinnedOpen && !card.contains(event.target)) {
+      pinnedOpen = false;
+      setOpen(false);
+    }
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && pinnedOpen) {
+      pinnedOpen = false;
+      setOpen(false);
+      trigger.focus();
+    }
+  });
+})();
