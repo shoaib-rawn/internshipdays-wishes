@@ -57,3 +57,42 @@
     }
   });
 })();
+
+(() => {
+  const form = document.querySelector("#contact-form");
+  const status = document.querySelector("#contact-status");
+  if (!form || !status) return;
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!form.reportValidity()) return;
+
+    const button = form.querySelector(".contact-send");
+    const label = button.querySelector("span");
+    button.disabled = true;
+    label.textContent = "Sending…";
+    status.hidden = false;
+    status.classList.remove("is-error");
+    status.textContent = "Sending your message…";
+
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(Object.fromEntries(new FormData(form)))
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || result.success === "false") {
+        throw new Error(result.message || "Message could not be sent.");
+      }
+      form.reset();
+      status.textContent = "Thanks! Your message has been sent.";
+    } catch {
+      status.classList.add("is-error");
+      status.textContent = "Sorry, your message could not be sent right now. Please try again shortly.";
+    } finally {
+      button.disabled = false;
+      label.textContent = "Send message";
+    }
+  });
+})();
