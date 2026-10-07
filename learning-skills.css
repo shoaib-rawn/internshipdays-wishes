@@ -1,0 +1,6 @@
+.growth-skills{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:25px}
+.growth-card{display:flex;align-items:flex-start;gap:13px;min-height:116px;padding:17px 15px;border:1px solid #d2e3ee;border-radius:10px;background:#f8fcff}
+.growth-icon{flex:0 0 40px;width:40px;height:40px;display:grid;place-items:center;border-radius:50%;background:#e0f0fa;color:#5588a8}
+.growth-icon svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.growth-card h3{font-size:15px;color:#344e60;margin:1px 0 5px}.growth-card p{font-size:11px;line-height:1.6;color:#607687;margin:0}
+@media(max-width:760px){.growth-skills{grid-template-columns:1fr;gap:10px}.growth-card{min-height:unset;align-items:center;padding:14px 16px}}
