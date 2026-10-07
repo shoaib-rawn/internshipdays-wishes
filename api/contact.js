@@ -1,4 +1,5 @@
 const FORM_ENDPOINT = 'https://formsubmit.co/ajax/shoaibhassan533q@gmail.com';
+const SITE_URL = 'https://internshipdays-wishes.vercel.app/';
 
 module.exports = async function contact(request, response) {
   response.setHeader('Cache-Control', 'no-store');
@@ -24,30 +25,60 @@ module.exports = async function contact(request, response) {
     return response.status(400).json({ success: false, message: 'Please check your name, email and message.' });
   }
 
-  const pageUrl = request.headers?.referer || (request.headers?.host ? `https://${request.headers.host}/` : '');
+  if (fields._honey) {
+    return response.status(400).json({ success: false, message: 'Please leave the extra field empty and try again.' });
+  }
+
   const payload = {
     name,
     email,
     message,
     _subject: 'New portfolio message for Shoaib Hassan',
     _template: 'table',
-    _honey: typeof fields?._honey === 'string' ? fields._honey : '',
-    ...(pageUrl ? { _url: pageUrl } : {}),
+    _replyto: email,
+    _url: SITE_URL,
   };
 
   try {
     const upstream = await fetch(FORM_ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Referer: SITE_URL,
+        Origin: new URL(SITE_URL).origin,
+      },
       body: JSON.stringify(payload),
-      signal: AbortSignal.timeout(15000),
+      signal: AbortSignal.timeout(20000),
     });
     const result = await upstream.json().catch(() => null);
+    const providerMessage = typeof result?.message === 'string' ? result.message.slice(0, 350) : '';
+    if (/activat|confirm (?:your |the )?email|verification/i.test(providerMessage)) {
+      console.error('Contact form needs activation:', providerMessage);
+      return response.status(503).json({
+        success: false,
+        code: 'FORM_NOT_ACTIVATED',
+        message: 'This contact form is awaiting email activation. Please try again after the site owner activates it.',
+      });
+    }
     if (!upstream.ok || (result?.success !== true && result?.success !== 'true')) {
-      return response.status(502).json({ success: false, message: 'The message service could not confirm delivery. Please try again later.' });
+      console.error('Contact delivery rejected:', { status: upstream.status, message: providerMessage || 'No JSON response' });
+      return response.status(502).json({
+        success: false,
+        code: 'DELIVERY_REJECTED',
+        message: providerMessage || 'The message service could not accept your message. Please try again later.',
+      });
     }
     return response.status(200).json({ success: true });
-  } catch {
-    return response.status(502).json({ success: false, message: 'The message service is unavailable. Please try again later.' });
+  } catch (error) {
+    const timedOut = error.name === 'TimeoutError' || error.name === 'AbortError';
+    console.error('Contact provider request failed:', { name: error.name, cause: error.cause?.code });
+    return response.status(timedOut ? 504 : 502).json({
+      success: false,
+      code: timedOut ? 'DELIVERY_TIMEOUT' : 'DELIVERY_UNAVAILABLE',
+      message: timedOut
+        ? 'The message service took too long to respond. We could not confirm delivery; your message is still in the form.'
+        : 'The message service is temporarily unavailable. Your message is still in the form; please try again later.',
+    });
   }
 };
