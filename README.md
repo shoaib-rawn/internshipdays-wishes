@@ -1,6 +1,6 @@
 ﻿# Internship Days & Wishes
 
-A small thank-you website for Shoaib Hassan's six-month PSEB internship at Logic Power Solutions.
+A small thank-you website for Shoaib Hassan's six-month PSEB internship at <span class="brand-name"><span class="brand-logic">LOGIC</span> <span class="brand-powered">POWERED</span></span>.
 
 ## Pages
 
