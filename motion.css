@@ -1,0 +1,6 @@
+.announcement{overflow:hidden}
+.marquee{width:100%;overflow:hidden;white-space:nowrap;animation:none}
+.marquee span{display:inline-block;padding-left:0;animation:marquee 68s linear infinite}
+@keyframes marquee{to{transform:translateX(-50%)}}
+@media(max-width:460px){.marquee span{animation-duration:78s}}
+@media(prefers-reduced-motion:reduce){.marquee span{animation:none;white-space:normal;padding:4px 16px}}

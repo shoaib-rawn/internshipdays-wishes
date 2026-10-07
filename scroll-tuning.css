@@ -1,0 +1,4 @@
+html{scroll-behavior:smooth;scroll-padding-top:22px}
+#journey,#memories,#about-me,#thanks,#top{scroll-margin-top:22px}
+.reveal{transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1)}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}.reveal{transition:none!important;opacity:1;transform:none}}

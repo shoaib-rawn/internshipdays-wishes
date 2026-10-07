@@ -1,0 +1,17 @@
+.memory::after{transition:opacity .22s ease,transform .22s ease}
+.memory-birthday:hover{background:#ffede8;box-shadow:0 8px 20px #aa4d3918}
+.memory-birthday:hover::after{content:"";width:62px;height:62px;background:url("assets/red-velvet-cake.svg") center/contain no-repeat;opacity:1;transform:scale(1.04)}
+.memory-team:hover{background:#f0e8fb;box-shadow:0 8px 20px #713fb21c}
+.memory-team:hover::after{content:"";width:62px;height:62px;background:url("assets/people-purple.svg") center/contain no-repeat;opacity:1;transform:scale(1.04)}
+.memory-place:hover{background:#fff0f2;box-shadow:0 8px 20px #c8204319}
+.memory-place:hover::after{content:"";width:62px;height:62px;background:url("assets/heart-red.svg") center/contain no-repeat;opacity:1;transform:scale(1.04)}
+@media(hover:none),(max-width:760px){
+  .memory-birthday{background:#ffede8;box-shadow:0 8px 20px #aa4d3918}
+  .memory-team{background:#f0e8fb;box-shadow:0 8px 20px #713fb21c}
+  .memory-place{background:#fff0f2;box-shadow:0 8px 20px #c8204319}
+  .memory-birthday::after,.memory-team::after,.memory-place::after{content:"";width:54px;height:54px;right:14px;top:15px;opacity:1;transform:none;font-size:0}
+  .memory-birthday::after{background:url("assets/red-velvet-cake.svg") center/contain no-repeat}
+  .memory-team::after{background:url("assets/people-purple.svg") center/contain no-repeat}
+  .memory-place::after{background:url("assets/heart-red.svg") center/contain no-repeat}
+}
+@media(prefers-reduced-motion:reduce){.memory::after{transition:none}}

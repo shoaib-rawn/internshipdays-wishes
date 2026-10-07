@@ -1,0 +1,2 @@
+.memory-place::after{position:absolute;right:18px;top:20px;content:"♥";color:#e34b5c;font-size:62px;line-height:1;opacity:.3}
+.profile-actions{display:flex;align-items:center;gap:20px}.profile-photo{width:160px;height:160px;border:3px solid white;box-shadow:0 2px 12px #385a701c;object-fit:cover;object-position:center;border-radius:50%}.profile-actions .file-button{white-space:nowrap}@media(max-width:760px){.profile-photo{width:120px;height:120px}}
