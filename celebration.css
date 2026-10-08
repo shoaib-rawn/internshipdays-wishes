@@ -1,0 +1,25 @@
+/* Each flower opens its petals while the stem stays still. */
+.hero-rose{aspect-ratio:220/390;overflow:visible}
+.hero-rose .rose-petal{transform-box:fill-box;animation-duration:6s;animation-timing-function:ease-in-out;animation-iteration-count:infinite}
+.rose-petal-left{transform-origin:90% 90%;animation-name:rose-open-left}
+.rose-petal-right{transform-origin:10% 90%;animation-name:rose-open-right}
+.rose-petal-core{transform-origin:50% 90%;animation-name:rose-open-core}
+.rose-right .rose-petal{animation-delay:-3s}
+@keyframes rose-open-left{0%,100%{transform:rotate(10deg) scale(.78,.94)}50%{transform:rotate(-12deg) scale(1.08,1)}}
+@keyframes rose-open-right{0%,100%{transform:rotate(-10deg) scale(.78,.94)}50%{transform:rotate(12deg) scale(1.08,1)}}
+@keyframes rose-open-core{0%,100%{transform:scale(.88,.95)}50%{transform:scale(1.07,1.04)}}
+
+/* Clip decoration to the card; keep text, video and controls above it. */
+.memory-video{position:relative;isolation:isolate;overflow:hidden}
+.memory-video>:not(.video-celebration){position:relative;z-index:1}
+.memory-video::before{z-index:1}
+.memory-video.is-video-playing{background:radial-gradient(ellipse at 10% 15%,#f2b7c43b,transparent 65%),linear-gradient(135deg,#fff8f5,#fbe2e8 58%,#f2eafa)}
+.video-celebration{display:none;position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.is-video-playing .video-celebration{display:block}
+.celebration-particle{position:absolute;left:var(--left);top:-30px;width:var(--size);height:var(--size);opacity:.35;animation:celebration-fall var(--duration) linear var(--delay) infinite}
+.celebration-petal{height:calc(var(--size)*1.35);border-radius:85% 15% 75% 25%;background:radial-gradient(ellipse at 25% 25%,#ed7181,#c32644 58%,#8c142c);box-shadow:inset 1px 1px 2px #ffe0e866}
+.celebration-confetti{height:calc(var(--size)*.55);border-radius:1px;background:var(--confetti-color);opacity:.3}
+.celebration-sparkle{background:#d89843;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);opacity:.4}
+@keyframes celebration-fall{0%{transform:translate3d(0,0,0) rotate(0deg)}50%{transform:translate3d(calc(var(--drift)*-.35),calc(var(--fall-distance)*.5),0) rotate(calc(var(--turn)*.5))}100%{transform:translate3d(var(--drift),var(--fall-distance),0) rotate(var(--turn))}}
+@media(max-width:460px){.celebration-particle:nth-child(n+23){display:none}}
+@media(prefers-reduced-motion:reduce){.hero-rose .rose-petal,.celebration-particle{animation:none}.is-video-playing .video-celebration{display:none}}
