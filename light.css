@@ -26,3 +26,36 @@ html{scroll-behavior:smooth}body{background:#eaf6ff;color:#253746}.wrap{width:mi
 .contact-panel .contact-heading .contact-channel{flex:0 0 44px;width:44px;min-height:44px;gap:0;padding:10px;border-radius:50%}
 .contact-panel .contact-form textarea{height:56px;min-height:56px;max-height:140px;padding-block:6px}
 @media(max-width:600px){.contact-panel{width:min(350px,calc(100vw - 24px));padding:16px 17px}}
+
+/* Use the available canvas on laptops and large displays while preserving the
+   existing tablet and mobile layouts. Content blocks keep their own readable
+   line lengths; this only removes the narrow 1060px outer-page cap. */
+@media (min-width: 1200px) {
+  .wrap {
+    width: calc(100% - clamp(64px, 8vw, 160px));
+    max-width: 2200px;
+  }
+
+  .topbar {
+    padding-inline: max(clamp(32px, 4vw, 80px), calc((100% - 2200px) / 2));
+  }
+}
+
+@media (min-width: 1600px) {
+  .hero {
+    min-height: calc(100vh - 102px);
+  }
+
+  .hero-copy {
+    max-width: 820px;
+  }
+
+  .hero h1 {
+    font-size: clamp(74px, 5vw, 96px);
+  }
+
+  .intro {
+    max-width: 680px;
+    font-size: 18px;
+  }
+}
