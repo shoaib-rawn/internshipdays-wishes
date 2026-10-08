@@ -50,11 +50,8 @@
         copy.href = `https://quran.com/${reference.replace(":", "/")}`;
         copy.target = "_blank";
         copy.rel = "noopener noreferrer";
-        copy.textContent = `DAILY REMINDER: “${text}” — Qur’an ${reference} (translation excerpt) · `;
-        const duplicate = copy.cloneNode(true);
-        duplicate.setAttribute("aria-hidden", "true");
-        duplicate.tabIndex = -1;
-        track.replaceChildren(copy, duplicate);
+        copy.textContent = `DAILY REMINDER: “${text}” — Qur’an ${reference} (translation excerpt)`;
+        track.replaceChildren(copy);
       } else {
         track.textContent = personalNote;
       }
