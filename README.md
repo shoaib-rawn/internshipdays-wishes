@@ -17,6 +17,6 @@ Submissions use FormSubmit's JSON AJAX format and include the site URL and visit
 
 Documentation: https://formsubmit.co/ajax-documentation.
 
-The announcement keeps the personal office note through 9 October 2026 in Pakistan time. From 10 October, `daily-marquee.js` shows one daily Quran translation excerpt from a verified 14-quote rotation, with a link to the complete verse on Quran.com. It changes at midnight in Asia/Karachi, checks again when a tab returns to view, and needs no external API or daily deployment. The collection repeats after 14 days. Translation: Dr. Mustafa Khattab, The Clear Quran.
+The announcement shows one daily Quran translation excerpt from a verified 14-quote rotation, beginning on 9 October 2026 in Pakistan time, with a link to the complete verse on Quran.com. It changes at midnight in Asia/Karachi, checks again when a tab returns to view, and needs no external API or daily deployment. The collection repeats after 14 days. Translation: Dr. Mustafa Khattab, The Clear Quran.
 
 `page-entry.js` starts each visit, reload, and browser return at the hero, including URLs with an initial section fragment. Links clicked within the page still scroll smoothly. `celebration.css` animates the hero roses, and `celebration.js` shows transparent petals and confetti behind the video card only during playback. Pause, ending, buffering, or errors restore its usual background. Decorations never intercept player controls or change the card size, and respect reduced-motion preferences.
