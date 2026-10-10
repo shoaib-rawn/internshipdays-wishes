@@ -1,0 +1,34 @@
+/* Rendering and contrast improvements applied after the visual theme. */
+.announcement { color: #385c74; }
+@keyframes announcement-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .9; }
+}
+.hero .eyebrow,
+.profile-section .eyebrow,
+.skills-heading .eyebrow { color: #3f718f; }
+.brand-logic { color: #a84e00; }
+.brand-powered { color: #0068b3; }
+.hero h1 em,
+.section-head h2 em,
+.thanks h2 em { color: #557f99; }
+.button-primary { background: #3f7798; }
+.card-index { color: #536f82; }
+.proof-card > a { color: #356f91; }
+.skill-box-count { color: #516b7e; }
+.skill-box-hint { color: #855318; }
+.profile-copy p:last-child { color: #536b7c; }
+.footer { color: #536b7c; }
+.footer a { color: #356f91; }
+
+@supports (content-visibility: auto) {
+  .journey,
+  .memories,
+  .poem-section,
+  .profile-section,
+  .thanks,
+  .footer {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 900px;
+  }
+}
