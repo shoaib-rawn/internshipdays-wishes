@@ -519,8 +519,8 @@ html.is-wheel-smoothing{scroll-behavior:auto}
 /* Rendering and contrast improvements applied after the visual theme. */
 .announcement { color: #385c74; }
 @keyframes announcement-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: .9; }
+  0%, 100% { opacity: 1; transform: none; }
+  50% { opacity: 1; transform: translateY(-1px); }
 }
 .hero .eyebrow,
 .profile-section .eyebrow,
